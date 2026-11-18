@@ -1,0 +1,117 @@
+
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="theme-color" content="#241044">
+<title>SAHER FINDER - الساحر DZ</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;
+ font-family:Arial,sans-serif;
+ background:linear-gradient(145deg,#160b2c,#35145b);
+ color:white;
+ text-align:center;
+ min-height:100vh;
+ padding:25px 15px;
+}
+.container{
+ max-width:440px;
+ margin:auto;
+ background:#ffffff12;
+ border:1px solid #ffffff30;
+ border-radius:22px;
+ padding:25px 18px;
+}
+.logo{
+ width:130px;
+ height:130px;
+ object-fit:contain;
+ border-radius:50%;
+}
+h1{color:#ffd76a;font-size:27px}
+p{color:#eee;line-height:1.8}
+input{
+ width:100%;
+ padding:15px;
+ border:0;
+ border-radius:12px;
+ margin:10px 0;
+ font-size:17px;
+ text-align:center;
+}
+button{
+ width:100%;
+ padding:14px;
+ margin:7px 0;
+ border:0;
+ border-radius:12px;
+ font-size:16px;
+ font-weight:bold;
+ cursor:pointer;
+ background:#ffd76a;
+ color:#241044;
+}
+.secondary{background:#ffffff;color:#241044}
+#result{
+ margin-top:15px;
+ padding:12px;
+ border-radius:10px;
+ background:#ffffff15;
+ line-height:1.8;
+}
+footer{margin-top:25px;color:#cbb9df;font-size:12px}
+</style>
+</head>
+<body>
+<div class="container">
+<img class="logo" src="logo.gif" alt="SAHER FINDER">
+<h1>SAHER FINDER</h1>
+<h2>الساحر DZ</h2>
+<p>ابحث عن طريقة آمنة للتواصل ومشاركة الموقع بموافقة صاحبه.</p>
+
+<input id="phone" type="tel" placeholder="أدخل رقم الهاتف مع رمز الدولة">
+
+<button onclick="sendWhatsApp()">إرسال دعوة عبر WhatsApp</button>
+<button class="secondary" onclick="sendSMS()">إرسال دعوة عبر SMS</button>
+<button onclick="shareLocation()">مشاركة موقعي الحالي</button>
+
+<div id="result">مرحبًا بك في SAHER FINDER</div>
+<footer>SAHER FINDER © 2026</footer>
+</div>
+
+<script>
+function sendWhatsApp(){
+ const phone=document.getElementById("phone").value.trim();
+ if(!phone){alert("أدخل رقم الهاتف أولاً");return;}
+ const message="مرحباً، أدعوك لمشاركة موقعك معي عبر رابط آمن، ولا تتم مشاركة موقعك إلا بموافقتك.";
+ window.open("https://wa.me/"+phone.replace(/\D/g,"")+"?text="+encodeURIComponent(message),"_blank");
+}
+function sendSMS(){
+ const phone=document.getElementById("phone").value.trim();
+ if(!phone){alert("أدخل رقم الهاتف أولاً");return;}
+ const message="مرحباً، أرسل لك دعوة لمشاركة موقعك معي بموافقتك عبر SAHER FINDER.";
+ window.location.href="sms:"+phone+"?body="+encodeURIComponent(message);
+}
+function shareLocation(){
+ const result=document.getElementById("result");
+ if(!navigator.geolocation){
+  result.textContent="المتصفح لا يدعم تحديد الموقع.";
+  return;
+ }
+ result.textContent="جارٍ طلب إذن مشاركة موقعك...";
+ navigator.geolocation.getCurrentPosition(
+  function(position){
+   const lat=position.coords.latitude;
+   const lon=position.coords.longitude;
+   const link="https://www.google.com/maps?q="+lat+","+lon;
+   result.innerHTML="موقعك جاهز للمشاركة بموافقتك.<br><a style='color:#ffd76a' target='_blank' href='"+link+"'>عرض موقعي على الخريطة</a>";
+  },
+  function(){result.textContent="لم تتم مشاركة الموقع. تحقق من إذن الموقع.";}
+ );
+}
+</script>
+</body>
+</html>
